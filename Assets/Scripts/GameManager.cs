@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     private Transform lastUsedStartingPosition; // Variable para almacenar la última posición inicial utilizada
 
+    [SerializeField] private AudioSource applauseSound;//Variable para almacenar el audio de aplausos
+
     public int CurrentHitNumber
     {
         get => currentHitNumber;
@@ -127,6 +129,7 @@ public class GameManager : MonoBehaviour
         currentHitNumber = 0;//Inicializa la variable del número de golpes por HOLE (se incrementa desde el OnTriggerEnter)
 
         DisplayScore();//Muestra los valores de la lista de golpes
+        applauseSound.Play();//Reproducir el sonido de aplausos
         Debug.Log("GotoNextHole() llamado. Current Hole Number: " + currentHoleNumber);
     }
 
