@@ -21,11 +21,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalHitsText;//Referencia al marcador de golpes totales del canvas
     [SerializeField] private TextMeshProUGUI recordHitsText;//Referencia al marcador de récord de golpes de las partidas anteriores
 
+    public GameObject mainMenu;//Referencia al menú principal
     public GameObject scoreMenu;//Referencia al menú de puntuación
 
     private Transform lastUsedStartingPosition; // Variable para almacenar la última posición inicial utilizada
 
+    [SerializeField] private AudioSource startMusic;//Variable para almacenar el audio del inicio del juego
     [SerializeField] private AudioSource applauseSound;//Variable para almacenar el audio de aplausos
+    [SerializeField] private AudioSource backgroundMusic;//Variable para almacenar el audio de la partida
+    [SerializeField] private AudioSource endGameMusic;//Variable para almacenar el audio de fin de juego
+    [SerializeField] private AudioSource BallSound;//Variable para almacenar el audio de la bola
 
     public int CurrentHitNumber
     {
@@ -46,6 +51,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.DeleteKey("RecordHits");//Borra el valor almacenado en PlayerPrefs para la clave "RecordHits"
             PlayerPrefs.Save();//Guarda los cambios en PlayerPrefs
         }
+        startMusic.Play();//Reproducir el audio del inicio del juego
     }
 
     private void Start()
@@ -115,6 +121,7 @@ public class GameManager : MonoBehaviour
             int recordHits = GetRecordHits();//Determinar si el jugador ha establecido un nuevo récord
 
             ShowScoreMenu();
+            endGameMusic.Play();//Reproducir el audio de fin del juego
 
             if (totalHits < recordHits)
             {
@@ -173,6 +180,14 @@ public class GameManager : MonoBehaviour
             //Activa los botones del menú de puntuación
             ActivateScoreMenuButtons(scorePanel);
         }
+    }
+
+    public void StartGame()
+    {
+        //Desactiva el menú principal
+        mainMenu.SetActive(false);
+        startMusic.Stop();//Dejar de reproducir el audio del inicio del juego
+        backgroundMusic.Play();//Reproducir la música de fondo de la partida
     }
 
     public void RestartGame()
